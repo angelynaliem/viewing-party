@@ -4,11 +4,7 @@ import pytest
 from viewing_party.party import *
 from tests.test_constants import *
 
-<<<<<<< HEAD
 #@pytest.mark.skip()
-=======
-# @pytest.mark.skip()
->>>>>>> f7b584897d347dfd1466867e34d990defe4487c3
 def test_create_successful_movie():
     # Arrange
     movie_title = MOVIE_TITLE_1
@@ -23,11 +19,7 @@ def test_create_successful_movie():
     assert new_movie["genre"] == GENRE_1
     assert new_movie["rating"] == pytest.approx(RATING_1)
 
-<<<<<<< HEAD
 #@pytest.mark.skip()
-=======
-# @pytest.mark.skip()
->>>>>>> f7b584897d347dfd1466867e34d990defe4487c3
 def test_create_no_title_movie():
     # Arrange
     movie_title = None
@@ -40,11 +32,7 @@ def test_create_no_title_movie():
     # Assert
     assert new_movie is None
 
-<<<<<<< HEAD
 #@pytest.mark.skip()
-=======
-# @pytest.mark.skip()
->>>>>>> f7b584897d347dfd1466867e34d990defe4487c3
 def test_create_no_genre_movie():
     # Arrange
     movie_title = "Title A"
@@ -57,11 +45,7 @@ def test_create_no_genre_movie():
     # Assert
     assert new_movie is None
 
-<<<<<<< HEAD
 #@pytest.mark.skip()
-=======
-# @pytest.mark.skip()
->>>>>>> f7b584897d347dfd1466867e34d990defe4487c3
 def test_create_no_rating_movie():
     # Arrange
     movie_title = "Title A"
@@ -74,11 +58,7 @@ def test_create_no_rating_movie():
     # Assert
     assert new_movie is None
 
-<<<<<<< HEAD
 #@pytest.mark.skip()
-=======
-# @pytest.mark.skip()
->>>>>>> f7b584897d347dfd1466867e34d990defe4487c3
 def test_adds_movie_to_user_watched():
     # Arrange
     movie = {
@@ -99,11 +79,7 @@ def test_adds_movie_to_user_watched():
     assert updated_data["watched"][0]["genre"] == GENRE_1
     assert updated_data["watched"][0]["rating"] == RATING_1
 
-<<<<<<< HEAD
 #@pytest.mark.skip()
-=======
-# @pytest.mark.skip()
->>>>>>> f7b584897d347dfd1466867e34d990defe4487c3
 def test_adds_movie_to_non_empty_user_watched():
     # Arrange
     movie = {
@@ -123,11 +99,7 @@ def test_adds_movie_to_non_empty_user_watched():
     assert movie in updated_data["watched"]
     assert FANTASY_2 in updated_data["watched"]
 
-<<<<<<< HEAD
 #@pytest.mark.skip()
-=======
-# @pytest.mark.skip()
->>>>>>> f7b584897d347dfd1466867e34d990defe4487c3
 def test_adds_movie_to_user_watchlist():
     # Arrange
     movie = {
@@ -148,11 +120,7 @@ def test_adds_movie_to_user_watchlist():
     assert updated_data["watchlist"][0]["genre"] == GENRE_1
     assert updated_data["watchlist"][0]["rating"] == RATING_1
 
-<<<<<<< HEAD
 #@pytest.mark.skip()
-=======
-# @pytest.mark.skip()
->>>>>>> f7b584897d347dfd1466867e34d990defe4487c3
 def test_adds_movie_to_non_empty_user_watchlist():
     # Arrange
     movie = {
@@ -172,11 +140,7 @@ def test_adds_movie_to_non_empty_user_watchlist():
     assert movie in updated_data["watchlist"]
     assert FANTASY_2 in updated_data["watchlist"]
 
-<<<<<<< HEAD
 #@pytest.mark.skip()
-=======
-# @pytest.mark.skip()
->>>>>>> f7b584897d347dfd1466867e34d990defe4487c3
 def test_moves_movie_from_watchlist_to_empty_watched():
     # Arrange
     janes_data = {
@@ -198,14 +162,7 @@ def test_moves_movie_from_watchlist_to_empty_watched():
     # with pytest.raises(ValueError) as error_movie:
     #     watch_movie(janes_data, MOVIE_TITLE_1)
 
-<<<<<<< HEAD
 #@pytest.mark.skip()
-=======
-    # assert "It Came from the Stack Trace" in MOVIE_TITLE_1
-
-
-# @pytest.mark.skip()
->>>>>>> f7b584897d347dfd1466867e34d990defe4487c3
 def test_moves_movie_from_watchlist_to_watched():
     # Arrange
     movie_to_watch = HORROR_1
@@ -227,13 +184,7 @@ def test_moves_movie_from_watchlist_to_watched():
     # with pytest.raises(ValueError) as error_movie:
     #     watch_movie(janes_data, movie_to_watch["title"])
 
-<<<<<<< HEAD
 #@pytest.mark.skip()
-=======
-    # assert HORROR_1 in janes_data["watched"]
-
-# @pytest.mark.skip()
->>>>>>> f7b584897d347dfd1466867e34d990defe4487c3
 def test_does_nothing_if_movie_not_in_watchlist():
     # Arrange
     movie_to_watch = HORROR_1
