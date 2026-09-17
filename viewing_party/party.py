@@ -245,20 +245,6 @@ def get_available_recs(user_data):
     - a friend has watched it
     - the "host" of the movie is a service in the user's "subscriptions"
 
-    user_data = {
-        
-        "watched" : [{"title" : "Finding Nemo}, {"title" : "Wicked"}],
-        
-        "friends" : [
-        {
-        "watched" : [{"title" : "Wicked", "host" : "amazon prime"}, {"title" : "Mulan", "host" : "netflix"}]
-        }
-        ],
-
-        "subscriptions" : ["netflix", "amazon prime"]
-    
-        }
-
     Step 1 - Create a list for recommended movies
     Step 2 - Iterate through each friend's watched movies list to see if the movies are not in the user's watched list. User the helper function above.
     Step 3 - Check if the movie's host exists in the user's subscriptions. If so, add that movie to the recommended movies list
@@ -278,6 +264,69 @@ def get_available_recs(user_data):
 # -----------------------------------------
 # ------------- WAVE 5 --------------------
 # -----------------------------------------
+def get_new_rec_by_genre(user_data):
+    recommendation = []
+
+    most_frequently_watched_genre = get_most_watched_genre(user_data) # A string which is the genre, e.g. "Horror"
+    
+    friend_movie = get_friends_unique_watched(user_data) # A list of friends' movies the user has not watched
+
+    if not user_data["watched"]:
+        return recommendation
+    
+    for movie in friend_movie:
+        if movie["genre"] == most_frequently_watched_genre:
+            recommendation.append(movie)
+        
+    return recommendation
+
+def get_rec_from_favorites(user_data):
+    """
+    user_data has a new key called "favorites". The value of "favorites" is a list of the user's favorite movies
+    create a new list of recommended movies for the friends
+    add a movie to the list for friends if:
+    - the movie is in "favorites"
+    - friends have not watched it
+    return the list for friends
+    """
+    
+    recommendations = []
+
+    # for movie in user_data["favorites"]:
+    #     for friend in user_data["friends"]:
+    #         for friend_movie in friend["watched"]:
+    #             if movie not in friend_movie:
+    #                 recommendations.append(movie)
+
+    # for friend in user_data["friends"]:
+    #     for friend_movie in friend["watched"]:
+    #         if friend_movie not in user_data["favorites"]:
+    #             recommendations.append(friend_movie)
+    
+    all_watched_movies_in_friends = []
+    
+    for friend in user_data["friends"]:
+        for friend_movie in friend["watched"]:
+            all_watched_movies_in_friends.append(friend_movie)
 
 
+    for movie in user_data["favorites"]:
+        if movie not in all_watched_movies_in_friends:
+            recommendations.append(movie)
+    
+    return recommendations
 
+  
+
+    
+
+
+    #for favorite_movie in user_data["friends"]:
+    #friend_watched_movie = False
+
+    
+
+# for friend in user_data["favorits"]:
+#     for friend_movie in friend["watched"]:
+#         if favorite_movie["title"] == friend_movie["title"]
+#         friend_watched_movie = True
