@@ -219,8 +219,31 @@ def get_unique_watched(user_data):
         
 # -----------------------------------------
 # ------------- WAVE 4 --------------------
-# -----------------------------------------
+# ----------------------------------------def get_available_recs(user_data):
+    recommendations = []
 
+    for friend in user_data["friends"]:
+        for friend_movie in friend["watched"]:
+            user_watched_movie = False
+
+            for movie in user_data["watched"]:
+                if friend_movie["title"] == movie["title"]:
+                    user_watched_movie = True
+                    break
+
+            if user_watched_movie == False:
+                if friend_movie["host"] in user_data["subscriptions"]:
+                    already_added = False
+
+                    for movie in recommendations:
+                        if movie["title"] == friend_movie["title"]:
+                            already_added = True
+                            break
+
+                    if already_added == False:
+                        recommendations.append(friend_movie)
+
+    return recommendations
 # -----------------------------------------
 # ------------- WAVE 5 --------------------
 # -----------------------------------------
