@@ -132,12 +132,12 @@ def get_most_watched_genre(user_data):
     """
 
     highest_genre = None
+    highest_frequency = 0
     watched = user_data[KEY_MOVIE_WATCHED]
+    genre_count = {}
 
     if not watched:
-        return None
-
-    genre_count = {}
+            return None
     
     for movie in watched:
         genre = movie[KEY_MOVIE_GENRE]
@@ -145,8 +145,6 @@ def get_most_watched_genre(user_data):
             genre_count[genre] = 1
         else:
             genre_count[genre] += 1
-
-    highest_frequency = 0
 
     for genre, frequency in genre_count.items():
         if frequency > highest_frequency:
