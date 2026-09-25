@@ -272,16 +272,14 @@ def get_rec_from_favorites(user_data):
     """
     
     recommendations = []
-    
-    all_watched_movies_in_friends = []
-    
-    for friend in user_data[KEY_MOVIE_FRIENDS]:
-        for friend_movie in friend[KEY_MOVIE_WATCHED]:
-            all_watched_movies_in_friends.append(friend_movie)
-
+    user_unique_movies = get_unique_watched(user_data)
+    unique_favorite_titles = set()
 
     for movie in user_data[KEY_MOVIE_FAVORITES]:
-        if movie not in all_watched_movies_in_friends:
+        unique_favorite_titles.add(movie[KEY_MOVIE_TITLE])
+
+    for movie in user_unique_movies:
+        if movie[KEY_MOVIE_TITLE] in unique_favorite_titles:
             recommendations.append(movie)
     
     return recommendations
