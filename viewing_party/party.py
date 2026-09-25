@@ -128,33 +128,27 @@ def get_most_watched_genre(user_data):
     determine which genre is most frequently occurring in the watched list
     return the most frequently occurring genre
     if the watched list is empty, return None
-
-    Step 1 - create a new dictionary of just the genre
-    Step 2 - check the dictionary, for every new genre, set the count to 1. Add 1 to the count every time the loop repeats the same genre.
-    Step 3 - create the tracker for highest frequency genre. Compare the tracker set at 0 with each genre's frequency. Return the highest genre.
     """
 
-    genre_list = []
     genre_count = {}
     highest_frequency = 0
+    highest_genre = None
     watched = user_data["watched"]
 
     if not watched:
         return None
     
     for movie in watched:
-        genre_list.append(movie["genre"])
+        genre = movie["genre"]
+        if genre not in genre_count:
+            genre_count[genre] = 1
+        else:
+            genre_count[genre] += 1
 
-        for genre in genre_list:
-            if genre not in genre_count:
-                genre_count[genre] = 1
-            else:
-                genre_count[genre] += 1
-
-        for genre, frequency in genre_count.items():
-            if frequency > highest_frequency:
-                highest_frequency = frequency
-                highest_genre = genre
+    for genre, frequency in genre_count.items():
+        if frequency > highest_frequency:
+            highest_frequency = frequency
+            highest_genre = genre
 
     return highest_genre
 
@@ -291,17 +285,6 @@ def get_rec_from_favorites(user_data):
     """
     
     recommendations = []
-
-    # for movie in user_data["favorites"]:
-    #     for friend in user_data["friends"]:
-    #         for friend_movie in friend["watched"]:
-    #             if movie not in friend_movie:
-    #                 recommendations.append(movie)
-
-    # for friend in user_data["friends"]:
-    #     for friend_movie in friend["watched"]:
-    #         if friend_movie not in user_data["favorites"]:
-    #             recommendations.append(friend_movie)
     
     all_watched_movies_in_friends = []
     
@@ -315,18 +298,3 @@ def get_rec_from_favorites(user_data):
             recommendations.append(movie)
     
     return recommendations
-
-  
-
-    
-
-
-    #for favorite_movie in user_data["friends"]:
-    #friend_watched_movie = False
-
-    
-
-# for friend in user_data["favorits"]:
-#     for friend_movie in friend["watched"]:
-#         if favorite_movie["title"] == friend_movie["title"]
-#         friend_watched_movie = True
