@@ -85,10 +85,11 @@ def watch_movie(user_data, title):
     1. Return the user_data
     """
 
-    for movie in user_data[KEY_MOVIE_WATCHLIST]:
+    for movie in user_data[KEY_MOVIE_WATCHLIST][:]:
         if movie[KEY_MOVIE_TITLE] == title:
             user_data[KEY_MOVIE_WATCHLIST].remove(movie)
             user_data[KEY_MOVIE_WATCHED].append(movie)
+            break
 
     return user_data
 
@@ -105,8 +106,9 @@ def get_watched_avg_rating(user_data):
     """
 
     total_rating = 0
-    no_of_movies = len(user_data[KEY_MOVIE_WATCHED])
     watched = user_data[KEY_MOVIE_WATCHED]
+    no_of_movies = len(watched)
+    
 
     if not watched:
         return 0.0
@@ -114,7 +116,7 @@ def get_watched_avg_rating(user_data):
     for movie in watched:
         total_rating += movie[KEY_MOVIE_RATING]
 
-    average_rating = total_rating/no_of_movies
+    average_rating = total_rating / no_of_movies
 
     return average_rating
 
@@ -129,13 +131,13 @@ def get_most_watched_genre(user_data):
     if the watched list is empty, return None
     """
 
-    genre_count = {}
-    highest_frequency = 0
     highest_genre = None
     watched = user_data[KEY_MOVIE_WATCHED]
 
     if not watched:
         return None
+
+    genre_count = {}
     
     for movie in watched:
         genre = movie[KEY_MOVIE_GENRE]
@@ -143,6 +145,8 @@ def get_most_watched_genre(user_data):
             genre_count[genre] = 1
         else:
             genre_count[genre] += 1
+
+    highest_frequency = 0
 
     for genre, frequency in genre_count.items():
         if frequency > highest_frequency:
@@ -176,22 +180,17 @@ def get_unique_watched(user_data):
     """
 
     unique_movies = []
-    user_unique_movies = []
-    friends_unique_movies = []
+    friends_unique_titles = set()
 
-    for movie in user_data[KEY_MOVIE_WATCHED]:
-        user_unique_movies.append(movie)
+    for friend in user_data[KEY_MOVIE_FRIENDS]:
+        for movie in friend[KEY_MOVIE_WATCHED]:
+            friends_unique_titles.add(movie[KEY_MOVIE_TITLE])
 
-    for friends in user_data[KEY_MOVIE_FRIENDS]:
-        for friend in friends[KEY_MOVIE_WATCHED]:
-            friends_unique_movies.append(friend)
-
-    for user_movie in user_unique_movies:
-        if user_movie not in friends_unique_movies:
+    for user_movie in user_data[KEY_MOVIE_WATCHED]:
+        if user_movie[KEY_MOVIE_TITLE] not in friends_unique_titles:
             unique_movies.append(user_movie)
 
     return unique_movies
-    
             
 def get_friends_unique_watched(user_data):
     """
@@ -200,21 +199,18 @@ def get_friends_unique_watched(user_data):
     return a list of movies that the user has not watched that the friend/s have
     """
     unique_movies = []
-    user_unique_movies = []
-    friends_unique_movies = []
+    user_watched_titles = set()
     
     for movie in user_data[KEY_MOVIE_WATCHED]:
-        user_unique_movies.append(movie)
+        user_watched_titles.add(movie[KEY_MOVIE_TITLE])
+
+    friends_watched_titles = set()
     
     for friend in user_data[KEY_MOVIE_FRIENDS]:
         for movie in friend[KEY_MOVIE_WATCHED]:
-            friends_unique_movies.append(movie)
-    
-    for friend_movie in friends_unique_movies:
-        if friend_movie not in user_unique_movies:
-            # Checks to make sure the movie is not repeated in the unique_movies list
-            if friend_movie not in unique_movies:
-                unique_movies.append(friend_movie)
+            if movie[KEY_MOVIE_TITLE] not in user_watched_titles and movie[KEY_MOVIE_TITLE] not in friends_watched_titles:
+                unique_movies.append(movie)
+                friends_watched_titles.add(movie[KEY_MOVIE_TITLE])
     
     return unique_movies
         
@@ -237,13 +233,12 @@ def get_available_recs(user_data):
     """
 
     recommended_movies = []
-
     friends_unique_movies = get_friends_unique_watched(user_data)
+    user_subscription = set(user_data[KEY_MOVIE_SUBSCRIPTIONS])
+
     for movie in friends_unique_movies:
-        if movie[KEY_MOVIE_HOST] in user_data[KEY_MOVIE_SUBSCRIPTIONS]:
-            # Checks to makes sure the movie is not repeated if it already exists in the list
-            if movie not in recommended_movies:
-                recommended_movies.append(movie)
+        if movie[KEY_MOVIE_HOST] in user_subscription:
+            recommended_movies.append(movie)
 
     return recommended_movies
 

@@ -58,6 +58,7 @@ def test_new_genre_rec_from_empty_friends():
     
         # Assert
     assert len(recommendations) == 0
+    assert recommendations == []
 
 # @pytest.mark.skip()
 def test_unique_rec_from_favorites():
